@@ -1,0 +1,256 @@
+﻿@{
+    ViewData["Title"] = "Panel de Administración - Norte Digital";
+}
+
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="container">
+        <div class="hero-content fade-in-up">
+            <h1 class="hero-title">📊 Panel de Control - Norte Digital</h1>
+            <p class="hero-subtitle">
+                Sistema de gestión integral para servicio técnico.<br>
+                Administra clientes, equipos, servicios y reportes desde un solo lugar.
+            </p>
+            <div class="hero-cta">
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Login", "Cuenta")" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Acceder al Sistema
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Index", "RecepcionEquipos")" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-laptop me-2"></i>Registrar Equipo
+                    </a>
+                }
+                <a href="#modulos" class="btn btn-secondary btn-lg">
+                    <i class="fas fa-th-large me-2"></i>Ver Módulos
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Módulos Principales -->
+<section id="modulos" class="py-5">
+    <div class="container">
+        <h2 class="section-title">Módulos del Sistema</h2>
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-users card-icon"></i>
+                        <h5 class="card-title">Gestión de Clientes</h5>
+                        <p class="card-text">Administra la base de datos de clientes, historial de servicios y información de contacto.</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Index", "Clientes")" class="btn btn-primary">Administrar</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-laptop card-icon"></i>
+                        <h5 class="card-title">Recepción de Equipos</h5>
+                        <p class="card-text">Registra nuevos equipos, especificaciones técnicas y estado inicial para diagnóstico.</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Index", "RecepcionEquipos")" class="btn btn-primary">Administrar</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-cogs card-icon"></i>
+                        <h5 class="card-title">Catálogo de Servicios</h5>
+                        <p class="card-text">Gestiona el catálogo de servicios, precios, SKUs y descripciones técnicas.</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Index", "Servicios")" class="btn btn-primary">Administrar</a>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="card service-card">
+                    <div class="card-body">
+                        <i class="fas fa-file-alt card-icon"></i>
+                        <h5 class="card-title">Descripciones</h5>
+                        <p class="card-text">Administra las descripciones detalladas de servicios y procedimientos técnicos.</p>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <a href="@Url.Action("Index", "DescripcionServicios")" class="btn btn-primary">Administrar</a>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Características del Sistema -->
+<section class="py-5" style="background-color: var(--light-gray);">
+    <div class="container">
+        <h2 class="section-title">Características del Sistema</h2>
+        <div class="row">
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-database card-icon" style="color: var(--success-green);"></i>
+                        <h5 class="card-title">Base de Datos Centralizada</h5>
+                        <p class="card-text">Toda la información de clientes, equipos y servicios en una base de datos segura.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-chart-line card-icon" style="color: var(--primary-blue);"></i>
+                        <h5 class="card-title">Reportes y Estadísticas</h5>
+                        <p class="card-text">Genera reportes detallados de servicios realizados y métricas de rendimiento.</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 mb-4">
+                <div class="card h-100">
+                    <div class="card-body text-center">
+                        <i class="fas fa-search card-icon" style="color: var(--warning-orange);"></i>
+                        <h5 class="card-title">Búsqueda Avanzada</h5>
+                        <p class="card-text">Encuentra rápidamente clientes, equipos o servicios con filtros avanzados.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+@if (User.Identity.IsAuthenticated)
+{
+    <!-- Panel de Control Rápido -->
+    <section class="py-5">
+        <div class="container">
+            <h2 class="section-title">Panel de Control</h2>
+            <div class="row">
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-users card-icon" style="color: var(--primary-blue);"></i>
+                            <h6 class="card-title">Gestionar Clientes</h6>
+                            <a href="@Url.Action("Index", "Clientes")" class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-arrow-right me-1"></i>Ir a Clientes
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-laptop card-icon" style="color: var(--success-green);"></i>
+                            <h6 class="card-title">Recepción de Equipos</h6>
+                            <a href="@Url.Action("Index", "RecepcionEquipos")" class="btn btn-outline-success btn-sm">
+                                <i class="fas fa-plus me-1"></i>Recibir Equipo
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-list card-icon" style="color: var(--warning-orange);"></i>
+                            <h6 class="card-title">Servicios</h6>
+                            <a href="@Url.Action("Index", "Servicios")" class="btn btn-outline-warning btn-sm">
+                                <i class="fas fa-eye me-1"></i>Ver Servicios
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-3 col-md-6 mb-3">
+                    <div class="card text-center">
+                        <div class="card-body">
+                            <i class="fas fa-file-alt card-icon" style="color: var(--danger-red);"></i>
+                            <h6 class="card-title">Descripciones</h6>
+                            <a href="@Url.Action("Index", "DescripcionServicios")" class="btn btn-outline-danger btn-sm">
+                                <i class="fas fa-edit me-1"></i>Gestionar
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+}
+
+<!-- Estadísticas del Sistema -->
+<section class="py-5" style="background: var(--tech-gradient); color: white;">
+    <div class="container">
+        <div class="row text-center">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="fade-in-up">
+                    <h3 class="display-4 fw-bold">@*500+*@ ---</h3>
+                    <p class="lead">Equipos Registrados</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="fade-in-up">
+                    <h3 class="display-4 fw-bold">@*150+*@ ---</h3>
+                    <p class="lead">Clientes Activos</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="fade-in-up">
+                    <h3 class="display-4 fw-bold">@*25*@ ---</h3>
+                    <p class="lead">Servicios Disponibles</p>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="fade-in-up">
+                    <h3 class="display-4 fw-bold">@*5*@ ---</h3>
+                    <p class="lead">Usuarios del Sistema</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Call to Action Final -->
+<section class="py-5">
+    <div class="container text-center">
+        <div class="row justify-content-center">
+            <div class="col-lg-8">
+                <h2 class="text-gradient mb-4">¿Listo para gestionar tu taller?</h2>
+                <p class="lead text-muted mb-4">
+                    Administra todos los aspectos de tu servicio técnico desde una plataforma centralizada.
+                    Optimiza procesos, mejora la organización y mantén el control total.
+                </p>
+                @if (!User.Identity.IsAuthenticated)
+                {
+                    <a href="@Url.Action("Login", "Cuenta")" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-sign-in-alt me-2"></i>Acceder al Sistema
+                    </a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Create", "RecepcionEquipos")" class="btn btn-primary btn-lg">
+                        <i class="fas fa-plus me-2"></i>Registrar Nuevo Equipo
+                    </a>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Script para Font Awesome Icons -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/js/all.min.js"></script>

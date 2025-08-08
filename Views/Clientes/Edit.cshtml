@@ -1,0 +1,347 @@
+﻿@model prueba.Models.Cliente
+@{
+    ViewData["Title"] = "Editar Cliente";
+}
+
+<div class="main-wrapper">
+    <div class="content-wrapper">
+        <main class="container-fluid py-4">
+            <!-- Header Section -->
+            <div class="row mb-4">
+                <div class="col-12">
+                    <div class="d-flex justify-content-between align-items-center">
+                        <div>
+                            <h1 class="text-gradient mb-2">Editar Cliente</h1>
+                            <p class="text-muted">Actualiza la información de @Model.Nombre @Model.Apellido</p>
+                        </div>
+                        <div>
+                            <a asp-action="Index" class="btn btn-secondary me-2">
+                                <i class="fas fa-arrow-left me-2"></i>Volver a la Lista
+                            </a>
+                            <a asp-action="Details" asp-route-id="@Model.Id" class="btn btn-outline-primary">
+                                <i class="fas fa-eye me-2"></i>Ver Detalles
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Form Section -->
+            <div class="row justify-content-center">
+                <div class="col-xl-8 col-lg-10">
+                    <div class="card fade-in-up">
+                        <div class="card-header">
+                            <h4 class="mb-0">
+                                <i class="fas fa-user-edit me-2"></i>Información del Cliente
+                            </h4>
+                        </div>
+                        <div class="card-body">
+                            <form asp-action="Edit" novalidate>
+                                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                                <input type="hidden" asp-for="Id" />
+
+                                <div class="row g-4">
+                                    <!-- Avatar Preview -->
+                                    <div class="col-12">
+                                        <div class="d-flex align-items-center justify-content-center mb-4">
+                                            <div class="avatar-large-edit">
+                                                <span id="avatarText">@Model.Nombre.Substring(0, 1).ToUpper()@Model.Apellido.Substring(0, 1).ToUpper()</span>
+                                            </div>
+                                            <div class="ms-3">
+                                                <h5 class="text-primary mb-1">Cliente ID: #@Model.Id</h5>
+                                                <small class="text-muted">Editando información personal</small>
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Nombre -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Nombre" class="form-label">
+                                                <i class="fas fa-user me-1"></i>Nombre <span class="text-danger">*</span>
+                                            </label>
+                                            <input asp-for="Nombre"
+                                                   class="form-control"
+                                                   placeholder="Ingrese el nombre del cliente"
+                                                   required
+                                                   onkeyup="updateAvatar()" />
+                                            <span asp-validation-for="Nombre" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Apellido -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Apellido" class="form-label">
+                                                <i class="fas fa-user me-1"></i>Apellido <span class="text-danger">*</span>
+                                            </label>
+                                            <input asp-for="Apellido"
+                                                   class="form-control"
+                                                   placeholder="Ingrese el apellido del cliente"
+                                                   required
+                                                   onkeyup="updateAvatar()" />
+                                            <span asp-validation-for="Apellido" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Correo -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Correo" class="form-label">
+                                                <i class="fas fa-envelope me-1"></i>Correo Electrónico <span class="text-danger">*</span>
+                                            </label>
+                                            <input asp-for="Correo"
+                                                   type="email"
+                                                   class="form-control"
+                                                   placeholder="cliente@ejemplo.com"
+                                                   required />
+                                            <span asp-validation-for="Correo" class="text-danger small"></span>
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>Este correo debe ser único en el sistema
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Teléfono -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Telefono" class="form-label">
+                                                <i class="fas fa-phone me-1"></i>Teléfono
+                                            </label>
+                                            <input asp-for="Telefono"
+                                                   type="tel"
+                                                   class="form-control"
+                                                   placeholder="+56 9 1234 5678" />
+                                            <span asp-validation-for="Telefono" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Dirección -->
+                                    <div class="col-12">
+                                        <div class="form-group">
+                                            <label asp-for="Direccion" class="form-label">
+                                                <i class="fas fa-map-marker-alt me-1"></i>Dirección
+                                            </label>
+                                            <input asp-for="Direccion"
+                                                   class="form-control"
+                                                   placeholder="Ingrese la dirección completa del cliente" />
+                                            <span asp-validation-for="Direccion" class="text-danger small"></span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estado -->
+                                    <div class="col-md-6">
+                                        <div class="form-group">
+                                            <label asp-for="Estado" class="form-label">
+                                                <i class="fas fa-toggle-on me-1"></i>Estado del Cliente
+                                            </label>
+                                            <select asp-for="Estado" class="form-control">
+                                                <option value="1" selected="@(Model.Estado == 1 ? "selected" : null)">
+                                                    <i class="fas fa-check-circle"></i>Activo
+                                                </option>
+                                                <option value="0" selected="@(Model.Estado == 0 ? "selected" : null)">
+                                                    <i class="fas fa-times-circle"></i>Inactivo
+                                                </option>
+                                            </select>
+                                            <span asp-validation-for="Estado" class="text-danger small"></span>
+                                            <div class="form-text">
+                                                <i class="fas fa-info-circle me-1"></i>Los clientes inactivos no aparecerán en búsquedas
+                                            </div>
+                                        </div>
+                                    </div>
+
+                                    <!-- Estado Visual -->
+                                    <div class="col-md-6">
+                                        <label class="form-label">Estado Actual</label>
+                                        <div class="pt-2">
+                                            <span id="estadoBadge" class="badge @(Model.Estado == 1 ? "badge-success" : "badge-danger")">
+                                                <i class="fas @(Model.Estado == 1 ? "fa-check-circle" : "fa-times-circle") me-1"></i>
+                                                @(Model.Estado == 1 ? "Activo" : "Inactivo")
+                                            </span>
+                                        </div>
+                                    </div>
+
+                                    <!-- Botones de acción -->
+                                    <div class="col-12">
+                                        <hr class="my-4">
+                                        <div class="d-flex gap-3 justify-content-end">
+                                            <a asp-action="Index" class="btn btn-secondary">
+                                                <i class="fas fa-times me-2"></i>Cancelar
+                                            </a>
+                                            <button type="button" class="btn btn-warning" onclick="resetForm()">
+                                                <i class="fas fa-undo me-2"></i>Restaurar
+                                            </button>
+                                            <button type="submit" class="btn btn-primary">
+                                                <i class="fas fa-save me-2"></i>Guardar Cambios
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Info Card -->
+            <div class="row mt-4">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Información:</strong> Los campos marcados con <span class="text-danger">*</span> son obligatorios.
+                        El correo electrónico debe ser único en el sistema. Los cambios se aplicarán inmediatamente después de guardar.
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+</div>
+
+<style>
+    .avatar-large-edit {
+        width: 80px;
+        height: 80px;
+        border-radius: 50%;
+        background: var(--tech-gradient);
+        color: white;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: bold;
+        font-size: 1.5rem;
+        transition: all 0.3s ease;
+    }
+
+    .form-text {
+        font-size: 0.875rem;
+        color: var(--medium-gray);
+        margin-top: 0.25rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-control:focus {
+        border-color: var(--primary-blue);
+        box-shadow: 0 0 0 0.2rem rgba(30, 64, 175, 0.25);
+    }
+
+    .is-invalid {
+        border-color: var(--danger-red) !important;
+    }
+
+    .is-valid {
+        border-color: var(--success-green) !important;
+    }
+</style>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Variables originales para restaurar
+        const originalData = {
+            nombre: '@Model.Nombre',
+            apellido: '@Model.Apellido',
+            correo: '@Model.Correo',
+            telefono: '@(Model.Telefono ?? "")',
+            direccion: '@(Model.Direccion ?? "")',
+            estado: @Model.Estado
+        };
+
+        // Actualizar avatar cuando cambian nombre o apellido
+        function updateAvatar() {
+            const nombre = document.getElementById('Nombre').value || 'N';
+            const apellido = document.getElementById('Apellido').value || 'A';
+            const avatarText = nombre.charAt(0).toUpperCase() + apellido.charAt(0).toUpperCase();
+            document.getElementById('avatarText').textContent = avatarText;
+        }
+
+        // Restaurar formulario a valores originales
+        function resetForm() {
+            if (confirm('¿Está seguro de que desea restaurar todos los campos a sus valores originales?')) {
+                document.getElementById('Nombre').value = originalData.nombre;
+                document.getElementById('Apellido').value = originalData.apellido;
+                document.getElementById('Correo').value = originalData.correo;
+                document.getElementById('Telefono').value = originalData.telefono;
+                document.getElementById('Direccion').value = originalData.direccion;
+                document.getElementById('Estado').value = originalData.estado;
+                updateAvatar();
+                updateEstadoBadge();
+
+                // Limpiar validaciones
+                document.querySelectorAll('.is-invalid, .is-valid').forEach(el => {
+                    el.classList.remove('is-invalid', 'is-valid');
+                });
+            }
+        }
+
+        // Actualizar badge de estado
+        function updateEstadoBadge() {
+            const estado = document.getElementById('Estado').value;
+            const badge = document.getElementById('estadoBadge');
+
+            if (estado == '1') {
+                badge.className = 'badge badge-success';
+                badge.innerHTML = '<i class="fas fa-check-circle me-1"></i>Activo';
+            } else {
+                badge.className = 'badge badge-danger';
+                badge.innerHTML = '<i class="fas fa-times-circle me-1"></i>Inactivo';
+            }
+        }
+
+        // Event listeners
+        document.addEventListener('DOMContentLoaded', function() {
+            // Listener para cambio de estado
+            document.getElementById('Estado').addEventListener('change', updateEstadoBadge);
+
+            // Validación en tiempo real
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input[required]');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+
+                input.addEventListener('input', function() {
+                    if (this.classList.contains('is-invalid')) {
+                        validateField(this);
+                    }
+                });
+            });
+
+            function validateField(field) {
+                if (field.value.trim() === '') {
+                    field.classList.add('is-invalid');
+                    field.classList.remove('is-valid');
+                } else {
+                    field.classList.add('is-valid');
+                    field.classList.remove('is-invalid');
+                }
+            }
+
+            // Confirmación antes de salir con cambios sin guardar
+            let formChanged = false;
+            form.addEventListener('input', function() {
+                formChanged = true;
+            });
+
+            window.addEventListener('beforeunload', function(e) {
+                if (formChanged) {
+                    e.preventDefault();
+                    e.returnValue = '';
+                }
+            });
+
+            // Quitar advertencia al enviar formulario
+            form.addEventListener('submit', function() {
+                formChanged = false;
+            });
+        });
+    </script>
+}

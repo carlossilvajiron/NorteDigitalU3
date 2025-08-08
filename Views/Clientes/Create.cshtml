@@ -1,0 +1,166 @@
+﻿@model prueba.Models.Cliente
+@{
+    ViewData["Title"] = "Crear Cliente";
+}
+
+<div class="content-wrapper">
+    <main class="container-fluid py-4">
+        <!-- Header Section -->
+        <div class="row mb-4">
+            <div class="col-12">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h1 class="text-gradient mb-2">Crear Nuevo Cliente</h1>
+                        <p class="text-muted">Complete los datos del cliente para registrarlo en el sistema</p>
+                    </div>
+                    <div>
+                        <a asp-action="Index" class="btn btn-secondary">
+                            <i class="fas fa-arrow-left me-2"></i>Volver a la Lista
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Form Section -->
+        <div class="row justify-content-center">
+            <div class="col-xl-8 col-lg-10">
+                <div class="card fade-in-up">
+                    <div class="card-header">
+                        <h4 class="mb-0"><i class="fas fa-user-plus me-2"></i>Información del Cliente</h4>
+                    </div>
+                    <div class="card-body">
+                        <form asp-action="Create" novalidate>
+                            <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+
+                            <div class="row g-4">
+                                <!-- Nombre -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Nombre" class="form-label">
+                                            <i class="fas fa-user me-1"></i>Nombre <span class="text-danger">*</span>
+                                        </label>
+                                        <input asp-for="Nombre"
+                                               class="form-control"
+                                               placeholder="Ingrese el nombre del cliente"
+                                               required />
+                                        <span asp-validation-for="Nombre" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Apellido -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Apellido" class="form-label">
+                                            <i class="fas fa-user me-1"></i>Apellido <span class="text-danger">*</span>
+                                        </label>
+                                        <input asp-for="Apellido"
+                                               class="form-control"
+                                               placeholder="Ingrese el apellido del cliente"
+                                               required />
+                                        <span asp-validation-for="Apellido" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Correo -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Correo" class="form-label">
+                                            <i class="fas fa-envelope me-1"></i>Correo Electrónico <span class="text-danger">*</span>
+                                        </label>
+                                        <input asp-for="Correo"
+                                               type="email"
+                                               class="form-control"
+                                               placeholder="cliente@ejemplo.com"
+                                               required />
+                                        <span asp-validation-for="Correo" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Teléfono -->
+                                <div class="col-md-6">
+                                    <div class="form-group">
+                                        <label asp-for="Telefono" class="form-label">
+                                            <i class="fas fa-phone me-1"></i>Teléfono
+                                        </label>
+                                        <input asp-for="Telefono"
+                                               type="tel"
+                                               class="form-control"
+                                               placeholder="+56 9 1234 5678" />
+                                        <span asp-validation-for="Telefono" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Dirección -->
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <label asp-for="Direccion" class="form-label">
+                                            <i class="fas fa-map-marker-alt me-1"></i>Dirección
+                                        </label>
+                                        <input asp-for="Direccion"
+                                               class="form-control"
+                                               placeholder="Ingrese la dirección completa del cliente" />
+                                        <span asp-validation-for="Direccion" class="text-danger small"></span>
+                                    </div>
+                                </div>
+
+                                <!-- Botones de acción -->
+                                <div class="col-12">
+                                    <div class="d-flex gap-3 justify-content-end pt-3">
+                                        <a asp-action="Index" class="btn btn-secondary">
+                                            <i class="fas fa-times me-2"></i>Cancelar
+                                        </a>
+                                        <button type="submit" class="btn btn-primary">
+                                            <i class="fas fa-save me-2"></i>Guardar Cliente
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Card -->
+        <div class="row mt-4">
+            <div class="col-12">
+                <div class="alert alert-info">
+                    <i class="fas fa-info-circle me-2"></i>
+                    <strong>Información:</strong> Los campos marcados con <span class="text-danger">*</span> son obligatorios.
+                    El correo electrónico debe ser único en el sistema.
+                </div>
+            </div>
+        </div>
+    </main>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+
+    <script>
+        // Validación adicional del lado cliente
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.querySelector('form');
+            const inputs = form.querySelectorAll('input[required]');
+
+            inputs.forEach(input => {
+                input.addEventListener('blur', function() {
+                    validateField(this);
+                });
+            });
+
+            function validateField(field) {
+                if (field.value.trim() === '') {
+                    field.classList.add('is-invalid');
+                    field.classList.remove('is-valid');
+                } else {
+                    field.classList.add('is-valid');
+                    field.classList.remove('is-invalid');
+                }
+            }
+        });
+    </script>
+}

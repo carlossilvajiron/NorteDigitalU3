@@ -1,0 +1,217 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content="Norte Digital - Sistema de gestión administrativo para servicio técnico. Panel de control para administrar clientes, equipos, servicios y reportes." />
+    <meta name="keywords" content="sistema administrativo, gestión servicio técnico, panel control, CRM taller" />
+    <meta name="author" content="Norte Digital" />
+
+    <title>@ViewData["Title"] - Norte Digital</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/x-icon" href="~/favicon.ico" />
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link rel="stylesheet" href="~/prueba.styles.css" asp-append-version="true" />
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+    <!-- Wrapper principal que ocupa toda la altura -->
+    <div class="main-wrapper">
+        <header>
+            <nav class="navbar navbar-expand-lg navbar-toggleable-sm navbar-light border-bottom box-shadow mb-0">
+                <div class="container-fluid">
+                    <!-- Brand con icono -->
+                    <a class="navbar-brand d-flex align-items-center" asp-area="" asp-controller="Home" asp-action="Index">
+                        <i class="fas fa-microchip me-2" style="font-size: 1.5rem;"></i>
+                        <span>Norte Digital</span>
+                    </a>
+
+                    <!-- Toggle button para móvil -->
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse"
+                            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+
+                    <!-- Navigation menu -->
+                    <div class="navbar-collapse collapse d-lg-inline-flex justify-content-between">
+                        <ul class="navbar-nav flex-grow-1">
+                            <!-- Navegación principal -->
+                            <li class="nav-item">
+                                <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index">
+                                    <i class="fas fa-home me-1"></i>Inicio
+                                </a>
+                            </li>
+
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <!-- Menú para usuarios autenticados -->
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="clientesDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-users me-1"></i>Gestión
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="clientesDropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Clientes" asp-action="Index">
+                                                <i class="fas fa-user-friends me-2"></i>Clientes
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="RecepcionEquipos" asp-action="Index">
+                                                <i class="fas fa-laptop me-2"></i>Recepción Equipos
+                                            </a>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Usuarios" asp-action="Index">
+                                                <i class="fas fa-user-cog me-2"></i>Usuarios
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle" href="#" id="serviciosDropdown" role="button"
+                                       data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-tools me-1"></i>Servicios
+                                    </a>
+                                    <ul class="dropdown-menu" aria-labelledby="serviciosDropdown">
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="Servicios" asp-action="Index">
+                                                <i class="fas fa-list me-2"></i>Ver Servicios
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a class="dropdown-item" asp-area="" asp-controller="DescripcionServicios" asp-action="Index">
+                                                <i class="fas fa-file-alt me-2"></i>Descripciones
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <!-- Menú para usuarios no autenticados -->
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#servicios">
+                                        <i class="fas fa-tools me-1"></i>Servicios
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="tel:+56912345678">
+                                        <i class="fas fa-phone me-1"></i>Contacto
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+
+                        <!-- Menú de usuario -->
+                        <ul class="navbar-nav ms-auto">
+                            @if (User.Identity.IsAuthenticated)
+                            {
+                                <li class="nav-item dropdown">
+                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="userDropdown"
+                                       role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <i class="fas fa-user-circle me-2"></i>
+                                        <span>@User.Identity.Name</span>
+                                    </a>
+                                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="userDropdown">
+                                        <li>
+                                            <h6 class="dropdown-header">
+                                                <i class="fas fa-user me-2"></i>Mi Cuenta
+                                            </h6>
+                                        </li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li>
+                                            <form asp-controller="Cuenta" asp-action="Logout" method="post" class="d-inline">
+                                                <button type="submit" class="dropdown-item text-danger">
+                                                    <i class="fas fa-sign-out-alt me-2"></i>Cerrar Sesión
+                                                </button>
+                                            </form>
+                                        </li>
+                                    </ul>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link btn btn-outline-light rounded-pill px-3" asp-area="" asp-controller="Cuenta" asp-action="Login">
+                                        <i class="fas fa-sign-in-alt me-1"></i>Iniciar Sesión
+                                    </a>
+                                </li>
+                            }
+                        </ul>
+                    </div>
+                </div>
+            </nav>
+        </header>
+
+        <!-- Contenido principal con padding adecuado -->
+        <div class="content-wrapper">
+            <div class="container-fluid px-0">
+                <main role="main" class="pb-4">
+                    @RenderBody()
+                </main>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer minimalista -->
+    <footer class="footer-minimal">
+        <div class="container">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <p class="mb-0">
+                        <strong>Norte Digital</strong> © 2025 |
+                        <a asp-area="" asp-controller="Home" asp-action="Privacy">Política de Privacidad</a> |
+                        Soporte: <a href="mailto:soporte@nortedigital.cl">soporte@nortedigital.cl</a>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+
+    <!-- Script personalizado para mejorar la experiencia -->
+    <script>
+        // Smooth scrolling para enlaces internos
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Cerrar dropdown al hacer clic fuera
+        document.addEventListener('click', function(event) {
+            const dropdowns = document.querySelectorAll('.dropdown-menu.show');
+            dropdowns.forEach(dropdown => {
+                if (!dropdown.parentElement.contains(event.target)) {
+                    dropdown.classList.remove('show');
+                }
+            });
+        });
+    </script>
+
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>
